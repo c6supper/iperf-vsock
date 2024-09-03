@@ -68,6 +68,9 @@
 
 #if defined(HAVE_VSOCK)
 #include "vsock.h"
+#ifdef __QNX__
+#include <vm_sockets.h>
+#endif
 #endif /* HAVE_VSOCK */
 
 

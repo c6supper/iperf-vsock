@@ -81,7 +81,11 @@
 #include "iperf_sctp.h"
 #endif /* HAVE_SCTP_H */
 #if defined(HAVE_VSOCK)
+#ifdef __QNX__
+#include <vm_sockets.h>
+#else
 #include <linux/vm_sockets.h>
+#endif
 #include "iperf_vsock.h"
 #endif /* HAVE_VSOCK */
 #include "timer.h"

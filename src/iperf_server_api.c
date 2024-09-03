@@ -50,8 +50,12 @@
 
 #include "iperf.h"
 #if defined(HAVE_VSOCK)
+#ifdef __QNX__
+#include <vm_sockets.h>
+#else
 #include <linux/vm_sockets.h>
-#endif /* HAVE_VSOCK */
+#endif
+#endif
 
 #include "iperf_api.h"
 #include "iperf_udp.h"

@@ -135,6 +135,8 @@
 #	define __LITTLE_ENDIAN LITTLE_ENDIAN
 #	define __PDP_ENDIAN    PDP_ENDIAN
 
+#elif defined(__QNX__)
+
 #else
 
 // Unsupported platforms.

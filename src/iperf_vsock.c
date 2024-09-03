@@ -89,7 +89,11 @@ iperf_vsock_init(struct iperf_test *test)
 
 #include <sys/socket.h>
 #include <sys/un.h>
+#ifdef __QNX__
+#include <vm_sockets.h>
+#else
 #include <linux/vm_sockets.h>
+#endif
 
 #include "net.h"
 #include "vsock.h"
@@ -125,9 +129,11 @@ vsock_sockaddr(const char *cid_str, int port, int listen, socklen_t *len)
 		svm->svm_family = AF_VSOCK;
 		svm->svm_cid = cid;
 		svm->svm_port = port;
+#ifndef __QNX__
 		if (sibling) {
 			svm->svm_flags = VMADDR_FLAG_TO_HOST;
 		}
+#endif
 
 		return (struct sockaddr *)svm;
 	}
@@ -182,10 +188,12 @@ vsockannounce(const char *local, int port)
 		goto err;
 	}
 
+#ifndef __QNX__
 	opt = 1;
 	if (setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
 		goto err_close;
 	}
+#endif
 
 	if (bind(listen_fd, sa, sa_len) != 0) {
 		goto err_close;
