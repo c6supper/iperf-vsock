@@ -129,13 +129,26 @@ AC_CHECK_HEADERS([netinet/sctp.h],
 fi
 
 # Check for VSOCK support
-AC_CHECK_HEADERS([linux/vm_sockets.h],
-		 AC_DEFINE([HAVE_VSOCK], [1], [Have VSOCK support.]),
-		 [],
-		 [#ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-])
+
+if  [[[ "${host_alias}" =~ "qnx" ]]] ; then :
+  AC_CHECK_HEADERS([vm_sockets.h],
+      AC_DEFINE([HAVE_VSOCK], [1], [Have VSOCK support.]),
+      [],
+      [#ifdef HAVE_SYS_SOCKET_H
+  #include <sys/socket.h>
+  #endif
+  ])
+else
+  AC_CHECK_HEADERS([linux/vm_sockets.h],
+      AC_DEFINE([HAVE_VSOCK], [1], [Have VSOCK support.]),
+      [],
+      [#ifdef HAVE_SYS_SOCKET_H
+  #include <sys/socket.h>
+  #endif
+  ])
+fi
+
+
 
 AC_CHECK_HEADER([endian.h],
 		AC_DEFINE([HAVE_ENDIAN_H], [1], [Define to 1 if you have the <endian.h> header file.]),
