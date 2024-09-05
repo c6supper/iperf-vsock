@@ -49,7 +49,9 @@ cc_binary {
     name: "iperf3-vsock",
     srcs: [
         "src/*.c",
+        "src/android/*.c",
     ],
+    local_include_dirs: [ "src/android" ],
     exclude_srcs: [
         "src/t_*.c",
     ],
